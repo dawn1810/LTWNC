@@ -17,29 +17,85 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <% data.map((item) => { %>
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
+                        <th scope="row"><%= item.id %></th>
+                        <td><%= item.username %></td>
+                        <td><%= item.fullname %></td>
+                        <td><%= item.address %></td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button
+                                    value="<%= item.id %>"
+                                    type="button"
+                                    id="seem-btn"
+                                    class="btn btn-link"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                >
+                                    <i class="fa-regular fa-eye" id="<%= item.id %>"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    id="update-btn"
+                                    class="btn btn-link"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                >
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    id="delete-btn"
+                                    class="btn btn-link"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                >
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
+                    <% }); %>
                 </tbody>
             </table>
+            <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">a</h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">Username:</div>
+                            <div class="mb-3">Fullname:</div>
+                            <div class="mb-3">Address:</div>
+                            <div class="mb-3">Gender:</div>
+                            <div class="mb-3">Email:</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Huỷ
+                            </button>
+                            <button type="button" id="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <%- include(footer) %>
+
+        <script src="/js/mainPage.js"></script>
     </body>
 </html>
