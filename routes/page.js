@@ -1,18 +1,16 @@
 import express from 'express';
 import homeController from '../controllers/HomeController';
+import aboutController from '../controllers/AboutController';
+import contactController from '../controllers/ContactController';
 
 const router = express.Router();
 
 const initWebRouter = (app) => {
     app.get('/', homeController);
 
-    app.get('/about', (req, res) => {
-        res.render('about', {header: 'header', footer: 'footer'});
-    });
+    app.get('/about', aboutController);
 
-    app.get('/contact', (req, res) => {
-        res.render('contact', {header: 'header', footer: 'footer'});
-    });
+    app.get('/contact', contactController);
 
     return app.use('/', router);
 };

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="../public/css/main.css" />
+        <link href="/css/main.css" />
     </head>
     <body>
         <%- include(header) %>
-        <div class="container-lg">
+        <div class="container-lg" style="min-height: 500px">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -16,20 +16,21 @@
                         <th scope="col">Setting</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="table_rows">
                     <% data.map((item) => { %>
-                    <tr>
+                    <tr id="row_<%= item.id %>">
                         <th scope="row"><%= item.id %></th>
                         <td><%= item.username %></td>
-                        <td><%= item.fullname %></td>
-                        <td><%= item.address %></td>
+                        <td id="fullname_<%= item.id %>"><%= item.fullname %></td>
+                        <td id="address_<%= item.id %>"><%= item.address %></td>
+                        <!-- button group -->
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <button
-                                    value="<%= item.id %>"
                                     type="button"
                                     id="seem-btn"
                                     class="btn btn-link"
+                                    value="<%= item.id %>"
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"
                                 >
@@ -39,19 +40,21 @@
                                     type="button"
                                     id="update-btn"
                                     class="btn btn-link"
+                                    value="<%= item.id %>"
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"
                                 >
-                                    <i class="fa-regular fa-pen-to-square"></i>
+                                    <i class="fa-regular fa-pen-to-square" id="<%= item.id %>"></i>
                                 </button>
                                 <button
                                     type="button"
                                     id="delete-btn"
                                     class="btn btn-link"
+                                    value="<%= item.id %>"
                                     data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"
                                 >
-                                    <i class="fa-regular fa-trash-can"></i>
+                                    <i class="fa-regular fa-trash-can" id="<%= item.id %>"></i>
                                 </button>
                             </div>
                         </td>
@@ -59,6 +62,15 @@
                     <% }); %>
                 </tbody>
             </table>
+            <button
+                id="add-btn"
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+            >
+                Thêm người dùng
+            </button>
             <div
                 class="modal fade"
                 id="exampleModal"
@@ -78,11 +90,74 @@
                             ></button>
                         </div>
                         <div class="modal-body">
-                            <div class="mb-3">Username:</div>
-                            <div class="mb-3">Fullname:</div>
-                            <div class="mb-3">Address:</div>
-                            <div class="mb-3">Gender:</div>
-                            <div class="mb-3">Email:</div>
+                            <form name="update-form">
+                                <!-- Username -->
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" />
+                                </div>
+                                <!-- Fullname -->
+                                <div class="mb-3">
+                                    <label for="fullname" class="form-label">Fullname</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <!-- Address -->
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <!-- Gender -->
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <div class="form-check form-check-inline" id="gender">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="inlineRadioOptions"
+                                            id="men"
+                                            value="0"
+                                            checked
+                                        />
+                                        <label class="form-check-label" for="inlineRadio1"
+                                            >Nam</label
+                                        >
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="inlineRadioOptions"
+                                            id="women"
+                                            value="1"
+                                        />
+                                        <label class="form-check-label" for="inlineRadio2"
+                                            >Nữ</label
+                                        >
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="inlineRadioOptions"
+                                            id="orthers"
+                                            value="2"
+                                        />
+                                        <label class="form-check-label" for="inlineRadio3"
+                                            >Khác</label
+                                        >
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
