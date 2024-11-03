@@ -1,21 +1,11 @@
-const SecurePaths = ['/login', 'register'];
+const SecurePaths = ['/login', '/register', '/api/register', '/api/login'];
 
-export const checkAuthen = (req, res, next) => {
+export const checkAuthen = async (req, res, next) => {
     if (SecurePaths.includes(req.path)) return next();
-    let session = req.session;
-    if (session && session.userId) {
-
-        if (!decoded) {s
-            return res.status(401).json({
-                EM: 'MIDDLEWARE | ERROR | Xác thực thất bại',
-                EC: '401',
-            });
-        }
-
-        req.user = decoded;
-        req.token = token;
+    let session = await req.session;
+    if (session && session.user) {
         next();
     } else {
-        res.redirect('/login')
+        res.redirect('/login');
     }
 };

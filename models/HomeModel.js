@@ -1,5 +1,12 @@
 require('dotenv').config();
 import pool from '../connectDB';
+import bcrypt from 'bcryptjs';
+const salt = bcrypt.genSaltSync(10);
+
+const hashPassword = (password) => {
+    const pass_hash = bcrypt.hashSync(password, salt);
+    return pass_hash;
+};
 
 const getUser = async () => {
     try {
@@ -106,8 +113,6 @@ const deleteUserInfo = async (userId) => {
 
         await pool.query('COMMIT');
 
-        console.log(currUser);
-
         if (currUser[0].affectedRows == 1) {
             return {
                 EM: 'DELETE_USERINFO | INFO | delete user success',
@@ -154,12 +159,13 @@ const addUser = async (info) => {
         );
 
         if (!checkUser[0][0]) {
+            const hashPass = hashPassword(password);
             // find current user
             const currUser = await pool.query(
                 `INSERT INTO nguoidung (username, password, fullname, address, sex, email)
                 VALUES (?, ?, ?, ?, ?, ?)
                 `,
-                [username, password, fullname, address, gender, email],
+                [username, hashPass, fullname, address, gender, email],
             );
 
             await pool.query('COMMIT');

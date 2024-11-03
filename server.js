@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.use(checkAuthen);
+//session
 app.use(
     session({
         store: redisStore,
@@ -28,6 +28,9 @@ app.use(
         },
     }),
 );
+
+// middleware
+app.use(checkAuthen);
 
 viewEngine(app);
 initApiRouter(app);

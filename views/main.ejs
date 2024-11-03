@@ -36,6 +36,7 @@
                                 >
                                     <i class="fa-regular fa-eye" id="<%= item.id %>"></i>
                                 </button>
+                                <% if (user.role === 0 || user.username === item.username) { %>
                                 <button
                                     type="button"
                                     id="update-btn"
@@ -56,12 +57,14 @@
                                 >
                                     <i class="fa-regular fa-trash-can" id="<%= item.id %>"></i>
                                 </button>
+                                <% } %>
                             </div>
                         </td>
                     </tr>
                     <% }); %>
                 </tbody>
             </table>
+            <% if (user.role === 0) { %>
             <button
                 id="add-btn"
                 type="button"
@@ -71,6 +74,7 @@
             >
                 Thêm người dùng
             </button>
+            <% } %>
             <div
                 class="modal fade"
                 id="exampleModal"

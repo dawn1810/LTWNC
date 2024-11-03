@@ -70,7 +70,6 @@ const handleUpdate = async (event) => {
 
     if (result.EC === '200' && result.DT) {
         const { username, fullname, address, sex, email } = result.DT;
-        console.log(sex);
 
         content.innerHTML = `
             <form name="update-form">
@@ -184,11 +183,12 @@ deleteBtn.forEach((button) => {
 });
 
 // Thêm người dùng
-addBtn.addEventListener('click', (event) => {
-    title.innerHTML = 'Thêm người dùng';
-    submitBtn.textContent = 'Thêm';
-    currOption = 'add';
-    content.innerHTML = `
+if (addBtn)
+    addBtn.addEventListener('click', (event) => {
+        title.innerHTML = 'Thêm người dùng';
+        submitBtn.textContent = 'Thêm';
+        currOption = 'add';
+        content.innerHTML = `
         <form name="add-form">
             <!-- Username -->
             <div class="mb-3">
@@ -258,8 +258,7 @@ addBtn.addEventListener('click', (event) => {
             </div>
         </form>
     `;
-});
-
+    });
 
 // submit and send api
 submitBtn.addEventListener('click', async () => {
@@ -373,8 +372,6 @@ submitBtn.addEventListener('click', async () => {
             });
 
             const updateResult = await updateRes.json();
-
-            console.log(updateResult);
 
             if (updateResult.EC === '200') {
                 // update row
