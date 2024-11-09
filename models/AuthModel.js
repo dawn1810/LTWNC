@@ -103,7 +103,7 @@ const handleRegister = async (data) => {
     } catch (error) {
         await pool.query('ROLLBACK');
 
-        console.log('SERVICE | REGISTER | ERROR | ', error);
+        console.error('SERVICE | REGISTER | ERROR | ', error);
         return {
             EM: 'REGISTER | ERROR | ' + error,
             EC: '500',
@@ -174,7 +174,7 @@ const handleLogin = async (data) => {
         };
     } catch (error) {
         await pool.query('ROLLBACK');
-        console.log('SERVICE | LOGIN | ERROR |', error);
+        console.error('SERVICE | LOGIN | ERROR |', error);
         return {
             EM: 'LOGIN | ERROR | ' + error,
             EC: '500',

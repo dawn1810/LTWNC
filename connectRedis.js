@@ -2,10 +2,10 @@ import RedisStore from 'connect-redis';
 import { createClient } from 'redis';
 
 const redisClient = createClient({
-    password: 'qgmcRli0moFhKIV59AJPijzoSCLGo6gf',
+    password: process.env.REDIS_PASS,
     socket: {
-        host: 'redis-13202.c295.ap-southeast-1-1.ec2.redns.redis-cloud.com',
-        port: 13202,
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT,
     },
 });
 

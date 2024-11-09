@@ -46,7 +46,7 @@ export const handleLogout = async (req, res) => {
             EC: '200',
         });
     } catch (error) {
-        console.log('CONTROLLER | LOGOUT | ERROR | ' + error);
+        console.error('CONTROLLER | LOGOUT | ERROR | ' + error);
 
         return res.status(200).json({
             EM: 'LOGOUT | ERROR | ' + error,

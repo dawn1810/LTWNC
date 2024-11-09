@@ -23,7 +23,7 @@ const getUser = async () => {
         return listUser[0];
     } catch (error) {
         await pool.query('ROLLBACK');
-        console.log('MODEL | GETUSER | ERROR |', error);
+        console.error('MODEL | GETUSER | ERROR |', error);
         return {
             EM: 'GETUSER | ERROR | ' + error,
             EC: '500',
@@ -52,7 +52,7 @@ const getUserInfo = async (userId) => {
         };
     } catch (error) {
         await pool.query('ROLLBACK');
-        console.log('MODEL | GETUSERINFO | ERROR |', error);
+        console.error('MODEL | GETUSERINFO | ERROR |', error);
         return {
             EM: 'GETUSERINFO | ERROR | ' + error,
             EC: '500',
@@ -92,7 +92,7 @@ const updateUserInfo = async (data) => {
         }
     } catch (error) {
         await pool.query('ROLLBACK');
-        console.log('MODEL | UPDATE_USERINFO | ERROR |', error);
+        console.error('MODEL | UPDATE_USERINFO | ERROR |', error);
         return {
             EM: 'UPDATE_USERINFO | ERROR | ' + error,
             EC: '500',
@@ -126,7 +126,7 @@ const deleteUserInfo = async (userId) => {
         }
     } catch (error) {
         await pool.query('ROLLBACK');
-        console.log('MODEL | DELETE_USERINFO | ERROR |', error);
+        console.error('MODEL | DELETE_USERINFO | ERROR |', error);
         return {
             EM: 'DELETE_USERINFO | ERROR | ' + error,
             EC: '500',
@@ -190,7 +190,7 @@ const addUser = async (info) => {
         }
     } catch (error) {
         await pool.query('ROLLBACK');
-        console.log('MODEL | ADD_USERINFO | ERROR |', error);
+        console.error('MODEL | ADD_USERINFO | ERROR |', error);
         return {
             EM: 'ADD_USERINFO | ERROR | ' + error,
             EC: '500',
