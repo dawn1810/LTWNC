@@ -1,12 +1,12 @@
 import { Sequelize } from 'sequelize';
+require('dotenv').config();
+
 const sequelize = new Sequelize({
-    development: {
-        username: process.env.SQL_USER,
-        password: process.env.SQL_PASS,
-        database: process.env.SQL_DBNAME,
-        host: process.env.SQL_HOST,
-        dialect: process.env.SQL_DIALECT,
-    },
+    username: process.env.SQL_USER,
+    password: process.env.SQL_PASS,
+    database: process.env.SQL_DBNAME,
+    host: process.env.SQL_HOST,
+    dialect: process.env.SQL_DIALECT,
 });
 
 // connection

@@ -39,7 +39,22 @@ export const deleteUserInfo = async (req, res) => {
         return res.status(200).json(result);
     } else {
         return res.status(200).json({
-            EM: 'UPDATE_USERINFO | ERROR | Ngoài thẩm quyền của bạn',
+            EM: 'DELETE_USERINFO | ERROR | Ngoài thẩm quyền của bạn',
+            EC: '403',
+        });
+    }
+};
+
+export const deleteUserSequalize = async (req, res) => {
+    const userId = await req.body.userId;
+
+    if (user.role === 0 || user.userId === +userId) {
+        const result = await models.deleteUserSequalize(userId);
+
+        return res.status(200).json(result);
+    } else {
+        return res.status(200).json({
+            EM: 'DELETE_SEQUALIZE | ERROR | Ngoài thẩm quyền của bạn',
             EC: '403',
         });
     }
@@ -55,7 +70,7 @@ export const addUser = async (req, res) => {
         return res.status(200).json(result);
     } else {
         return res.status(200).json({
-            EM: 'UPDATE_USERINFO | ERROR | Ngoài thẩm quyền của bạn',
+            EM: 'ADD_USER | ERROR | Ngoài thẩm quyền của bạn',
             EC: '403',
         });
     }
