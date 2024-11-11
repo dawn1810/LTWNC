@@ -3,6 +3,8 @@ import pool from '../connectDB';
 import bcrypt from 'bcryptjs';
 import User from '../sequalizeModels/User';
 import sequelize from '../sequalize';
+import Product from '../sequalizeModels/Product';
+import Group from '../sequalizeModels/Group';
 const salt = bcrypt.genSaltSync(10);
 
 const hashPassword = (password) => {
@@ -25,6 +27,27 @@ const getUser = async () => {
         return listUser[0];
     } catch (error) {
         await pool.query('ROLLBACK');
+        console.error('MODEL | GETUSER | ERROR |', error);
+        return {
+            EM: 'GETUSER | ERROR | ' + error,
+            EC: '500',
+        };
+    }
+};
+
+const getGroups = async () => {
+    const getGroupTrans = await sequelize.transaction();
+    try {
+        // find current user
+        const listProducts = await Group.findAll({ transaction: getGroupTrans });
+
+        await getGroupTrans.commit();
+
+        console.log(listProducts);
+
+        return listProducts;
+    } catch (error) {
+        await getGroupTrans.rollback();
         console.error('MODEL | GETUSER | ERROR |', error);
         return {
             EM: 'GETUSER | ERROR | ' + error,
@@ -303,6 +326,7 @@ const addUserSequalize = async (info) => {
 
 export const models = {
     getUser,
+    getGroups,
     getUserInfo,
     updateUserInfo,
     deleteUserInfo,

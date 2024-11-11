@@ -40,8 +40,7 @@ const User = sequelize.define(
 // Synchronize the model with the database
 // This function will delete all existing tables in the database
 const syncDatabase = async () => {
-    await sequelize.sync({ alter: true });
-    console.log('Cập nhật cơ sở dữ liệu.');
+    await User.sync();
 };
 // remember to comment this after server runs ones.
 syncDatabase();

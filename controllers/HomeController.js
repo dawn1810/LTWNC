@@ -3,8 +3,9 @@ require('dotenv').config();
 
 const homeController = async (req, res) => {
     const data = await models.getUser();
+    const group = await models.getGroups();
     const session = await req.session;
-    res.render('main', { header: 'header', footer: 'footer', data, user: session.user });
+    res.render('main', { header: 'header', footer: 'footer', data, group, user: session.user });
 };
 
 export const getUserInfo = async (req, res) => {
