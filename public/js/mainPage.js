@@ -275,7 +275,7 @@ submitBtn.addEventListener('click', async () => {
                 gender: gender.value,
                 email: email.value,
             };
-            const addRes = await fetch(`/api/addUser`, {
+            const addRes = await fetch(`/api/addSequalize`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ info }),
@@ -387,7 +387,7 @@ submitBtn.addEventListener('click', async () => {
             }
             break;
         case 'delete':
-            const deleteRes = await fetch(`/api/deleteUserInfo`, {
+            const deleteRes = await fetch(`/api/deleteSequalize`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId: currId }),

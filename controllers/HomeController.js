@@ -17,7 +17,7 @@ export const getUserInfo = async (req, res) => {
 export const updateUserInfo = async (req, res) => {
     const user = await req.session.user;
     const data = await req.body;
-    
+
     if (user.role === 0 || user.userId === +data.userId) {
         const result = await models.updateUserInfo(data);
 
@@ -31,6 +31,7 @@ export const updateUserInfo = async (req, res) => {
 };
 
 export const deleteUserInfo = async (req, res) => {
+    const user = await req.session.user;
     const userId = await req.body.userId;
 
     if (user.role === 0 || user.userId === +userId) {
@@ -46,6 +47,7 @@ export const deleteUserInfo = async (req, res) => {
 };
 
 export const deleteUserSequalize = async (req, res) => {
+    const user = await req.session.user;
     const userId = await req.body.userId;
 
     if (user.role === 0 || user.userId === +userId) {
@@ -66,6 +68,22 @@ export const addUser = async (req, res) => {
 
     if (user.role === 0) {
         const result = await models.addUser(info);
+
+        return res.status(200).json(result);
+    } else {
+        return res.status(200).json({
+            EM: 'ADD_USER | ERROR | Ngoài thẩm quyền của bạn',
+            EC: '403',
+        });
+    }
+};
+
+export const addUserSequalize = async (req, res) => {
+    const user = await req.session.user;
+    const info = await req.body.info;
+
+    if (user.role === 0) {
+        const result = await models.addUserSequalize(info);
 
         return res.status(200).json(result);
     } else {

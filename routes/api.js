@@ -1,7 +1,9 @@
 import express from 'express';
 import {
     addUser,
+    addUserSequalize,
     deleteUserInfo,
+    deleteUserSequalize,
     getUserInfo,
     updateUserInfo,
 } from '../controllers/HomeController';
@@ -12,7 +14,9 @@ const initApiRouter = (app) => {
     router.post('/getUserInfo', getUserInfo);
     router.post('/updateUserInfo', updateUserInfo);
     router.post('/deleteUserInfo', deleteUserInfo);
+    router.post('/deleteSequalize', deleteUserSequalize);
     router.post('/addUser', addUser);
+    router.post('/addSequalize', addUserSequalize);
     router.post('/register', handleRegister);
     router.post('/login', handleLogin);
 

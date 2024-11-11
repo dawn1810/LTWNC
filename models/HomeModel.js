@@ -201,28 +201,17 @@ const addUser = async (info) => {
 };
 
 const deleteUserSequalize = async (userId) => {
+    const deleteTransaction = await sequelize.transaction();
     try {
-        const t = await sequelize.transaction();
         const deleteUser = User.destroy(
             {
                 where: {
                     id: userId,
                 },
             },
-            { transaction: t },
+            { transaction: deleteTransaction },
         );
-        console.log(deleteUser);
-        await t.commit();
-        // await pool.query('START TRANSACTION');
-        // // find current user
-        // const currUser = await pool.query(
-        //     `DELETE FROM nguoidung
-        //     WHERE id = ?
-        //     `,
-        //     [userId],
-        // );
-
-        // await pool.query('COMMIT');
+        await deleteTransaction.commit();
 
         if (deleteUser) {
             return {
@@ -236,8 +225,7 @@ const deleteUserSequalize = async (userId) => {
             };
         }
     } catch (error) {
-        // await pool.query('ROLLBACK');
-        await t.rollback();
+        await deleteTransaction.rollback();
         console.error('MODEL | DELETE_USERINFO | ERROR |', error);
         return {
             EM: 'DELETE_USERINFO | ERROR | ' + error,
@@ -247,6 +235,7 @@ const deleteUserSequalize = async (userId) => {
 };
 
 const addUserSequalize = async (info) => {
+    const addTransaction = await sequelize.transaction();
     try {
         const { username, password, fullname, address, gender, email } = info;
 
@@ -262,46 +251,48 @@ const addUserSequalize = async (info) => {
             };
         }
 
-        await pool.query('START TRANSACTION');
-        const checkUser = await pool.query(
-            `SELECT id
-            FROM nguoidung
-            WHERE username = ?`,
-            [username],
+        const checkUser = await User.findOne(
+            { attributes: ['id'], where: { username: username } },
+            { transaction: addTransaction },
         );
 
-        if (!checkUser[0][0]) {
-            const hashPass = hashPassword(password);
-            // find current user
-            const currUser = await pool.query(
-                `INSERT INTO nguoidung (username, password, fullname, address, sex, email)
-                VALUES (?, ?, ?, ?, ?, ?)
-                `,
-                [username, hashPass, fullname, address, gender, email],
-            );
-
-            await pool.query('COMMIT');
-
-            if (currUser[0].affectedRows === 1) {
-                return {
-                    EM: 'ADD_USERINFO | INFO | add user success',
-                    EC: '200',
-                    DT: currUser[0].insertId,
-                };
-            } else {
-                return {
-                    EM: 'ADD_USERINFO | ERROR | No change have done',
-                    EC: '400',
-                };
-            }
-        } else {
+        // check if user exist
+        if (checkUser)
             return {
                 EM: 'ADD_USERINFO | ERROR | User already exist',
                 EC: '403',
             };
+
+        const hashPass = hashPassword(password);
+
+        const currUser = await User.create(
+            {
+                username: username,
+                password: hashPass,
+                fullname: fullname,
+                address: address,
+                sex: gender,
+                email: email,
+            },
+            { transaction: addTransaction },
+        );
+
+        await addTransaction.commit();
+
+        if (!currUser) {
+            return {
+                EM: 'ADD_USERINFO | ERROR | No change have done',
+                EC: '400',
+            };
         }
+
+        return {
+            EM: 'ADD_USERINFO | INFO | add user success',
+            EC: '200',
+            DT: currUser.dataValues.id,
+        };
     } catch (error) {
-        await pool.query('ROLLBACK');
+        await addTransaction.rollback();
         console.error('MODEL | ADD_USERINFO | ERROR |', error);
         return {
             EM: 'ADD_USERINFO | ERROR | ' + error,
