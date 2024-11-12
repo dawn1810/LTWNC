@@ -14,7 +14,7 @@ const hashPassword = (password) => {
 
 const getUser = async () => {
     try {
-        // get email@
+        // get email
         await pool.query('START TRANSACTION');
         // find current user
         const listUser = await pool.query(
@@ -39,18 +39,16 @@ const getGroups = async () => {
     const getGroupTrans = await sequelize.transaction();
     try {
         // find current user
-        const listProducts = await Group.findAll({ transaction: getGroupTrans });
+        const listGroups = await Group.findAll({ transaction: getGroupTrans });
 
         await getGroupTrans.commit();
 
-        console.log(listProducts);
-
-        return listProducts;
+        return listGroups;
     } catch (error) {
         await getGroupTrans.rollback();
-        console.error('MODEL | GETUSER | ERROR |', error);
+        console.error('MODEL | GET_GROUPS | ERROR |', error);
         return {
-            EM: 'GETUSER | ERROR | ' + error,
+            EM: 'GET_GROUPS | ERROR | ' + error,
             EC: '500',
         };
     }

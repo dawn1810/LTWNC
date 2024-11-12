@@ -26,7 +26,7 @@ const Product = sequelize.define(
             type: DataTypes.STRING,
         },
         idnhom: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
     },
@@ -36,7 +36,7 @@ const Product = sequelize.define(
     },
 );
 
-Product.belongsTo(Group, {foreignKey: 'idnhom'});
+// Product.belongsTo(Group, {foreignKey: 'idnhom'});
 
 const syncDatabase = async () => {
     await Product.sync({ alter: true });

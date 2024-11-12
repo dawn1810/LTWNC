@@ -6,9 +6,10 @@ const Group = sequelize.define(
     'nhom',
     {
         idnhom: {
-            type: DataTypes.NUMBER,
+            type: DataTypes.INTEGER,   
+            primaryKey: true,
+            autoIncrement: true,
             allowNull: false,
-            unique: true,
         },
         ten: {
             type: DataTypes.STRING,
@@ -21,7 +22,7 @@ const Group = sequelize.define(
     },
 );
 
-Group.hasMany(Product);
+// Group.hasMany(Product, {as: 'sanpham', foreignKey: 'idnhom'});
 
 const syncDatabase = async () => {
     await Group.sync({ alter: true });

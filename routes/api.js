@@ -17,10 +17,16 @@ const initApiRouter = (app) => {
     router.post('/deleteSequalize', deleteUserSequalize);
     router.post('/addUser', addUser);
     router.post('/addSequalize', addUserSequalize);
+
+    // authen
     router.post('/register', handleRegister);
     router.post('/login', handleLogin);
-
     router.get('/logout', handleLogout);
+
+    // group and product manage
+    router.post('/getProductList', handleLogout);
+    router.post('/getProductInfo', handleLogout);
+
 
     return app.use('/api', router);
 };
