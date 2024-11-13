@@ -1,4 +1,11 @@
-import { productModels } from "../models/ProductModel";
+import { models } from '../models/HomeModel';
+import { productModels } from '../models/ProductModel';
+
+export const getGroupList = async (req, res) => {
+    const result = await models.getGroups();
+
+    return res.status(200).json(result);
+};
 
 export const getProductList = async (req, res) => {
     const idnhom = req.body.idnhom;
@@ -8,10 +15,8 @@ export const getProductList = async (req, res) => {
 };
 
 export const getProductInfo = async (req, res) => {
-    const idnhom = req.body.masp;
-    const result = await productModels.getUserInfo(masp);
+    const masp = req.body.masp;
+    const result = await productModels.getProductInfo(masp);
 
     return res.status(200).json(result);
 };
-
-export default homeController;

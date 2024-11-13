@@ -1,5 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import viewEngine from './config/viewEngine';
 import initApiRouter from './routes/api';
 import initWebRouter from './routes/page';
@@ -10,10 +12,19 @@ import { redisStore } from './connectRedis';
 const app = express();
 const PORT = process.env.PORT;
 
+const corsOptions = {
+    origin: 'http://localhost:3000', 
+    optionsSuccessStatus: 200, 
+    credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cookieParser());
+
 
 //session
 app.use(

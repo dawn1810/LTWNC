@@ -2,6 +2,7 @@ require('dotenv').config();
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
 import pool from '../connectDB.js';
+import { createToken } from '../middleware/roleMiddleware.js';
 
 const hashPassword = (password) => {
     const pass_hash = bcrypt.hashSync(password, salt);
@@ -163,6 +164,14 @@ const handleLogin = async (data) => {
                 DT: '',
             };
 
+        let payload = {
+            userId: id,
+            username,
+            role,
+        };
+        let token = createToken(payload);
+
+        // nomal user
         return {
             EM: 'LOGIN | INFO | Đăng nhập thành công',
             EC: '200',
@@ -170,6 +179,7 @@ const handleLogin = async (data) => {
                 userId: id,
                 username,
                 role,
+                access_token: token,
             },
         };
     } catch (error) {

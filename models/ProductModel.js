@@ -1,20 +1,26 @@
 require('dotenv').config();
-import sequelize from '../sequalize';
 import Group from '../sequalizeModels/Group';
 
 const getProductList = async (idnhom) => {
     try {
-        // find current user
-        const listProducts = await Group.findAll({
-            attributes : ['ten','gia','hinhanh','masp'],
-            where: {
-                idnhom: idnhom,
-            },
-            limit: 10,
-        });
-        console.log(listProducts);
+        if (idnhom === 0) {
+            const listProducts = await Group.findAll({
+                attributes: ['ten', 'gia', 'hinhanh', 'masp'],
+                limit: 10,
+            });
 
-        return listProducts;
+            return listProducts;
+        } else {
+            const listProducts = await Group.findAll({
+                attributes: ['ten', 'gia', 'hinhanh', 'masp'],
+                where: {
+                    idnhom: idnhom,
+                },
+                limit: 10,
+            });
+
+            return listProducts;
+        }
     } catch (error) {
         console.error('MODEL | GET_LIST_PRODUCT | ERROR |', error);
         return {
@@ -26,9 +32,8 @@ const getProductList = async (idnhom) => {
 
 const getProductInfo = async (masp) => {
     try {
-        // find current user
         const productInfo = await Group.findOne({
-            attributes : ['ten','gia','hinhanh','mota'],
+            attributes: ['ten', 'gia', 'hinhanh', 'mota'],
             where: {
                 masp: masp,
             },
@@ -45,4 +50,4 @@ const getProductInfo = async (masp) => {
     }
 };
 
-export const productModels = { getProductList };
+export const productModels = { getProductList, getProductInfo };

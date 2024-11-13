@@ -23,6 +23,11 @@ export const handleLogin = async (req, res) => {
     const result = await authModels.handleLogin(data);
 
     if (result.DT) {
+        req.session.cookie.maxAge = 30 * 24 * 3600000;
+        res.cookie('jwt', result.DT.access_token, {
+            maxAge: 30 * 24 * 3600000, 
+            httpOnly: true, 
+        });
         req.session.user = result.DT;
     }
 
@@ -32,6 +37,7 @@ export const handleLogin = async (req, res) => {
 export const handleLogout = async (req, res) => {
     try {
         // Destroy the session
+        res.clearCookie('jwt');
         req.session.destroy((err) => {
             if (err) {
                 console.error('LOGOUT | INFO | Lỗi xoá session ' + err);

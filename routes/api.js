@@ -8,6 +8,7 @@ import {
     updateUserInfo,
 } from '../controllers/HomeController';
 import { handleLogin, handleLogout, handleRegister } from '../controllers/AuthenController';
+import { getGroupList, getProductInfo, getProductList } from '../controllers/ProductController';
 const router = express.Router();
 
 const initApiRouter = (app) => {
@@ -24,8 +25,9 @@ const initApiRouter = (app) => {
     router.get('/logout', handleLogout);
 
     // group and product manage
-    router.post('/getProductList', handleLogout);
-    router.post('/getProductInfo', handleLogout);
+    router.get('/getGroupList', getGroupList);
+    router.post('/getProductList', getProductList);
+    router.post('/getProductInfo', getProductInfo);
 
 
     return app.use('/api', router);
