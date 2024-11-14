@@ -40,10 +40,14 @@ const getGroups = async () => {
     try {
         // find current user
         const listGroups = await Group.findAll({ transaction: getGroupTrans });
+        
+        if (listGroups) await getGroupTrans.commit();
 
-        await getGroupTrans.commit();
-
-        return listGroups;
+        return {
+            EM: 'GET_GROUPS | INFO | Lấy danh sách nhóm thành công',
+            EC: '200',
+            DT: listGroups,
+        };
     } catch (error) {
         await getGroupTrans.rollback();
         console.error('MODEL | GET_GROUPS | ERROR |', error);

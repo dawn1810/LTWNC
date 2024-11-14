@@ -18,20 +18,32 @@ export const handleRegister = async (req, res) => {
 };
 
 export const handleLogin = async (req, res) => {
-    const data = await req.body;
+    try {
+        const data = await req.body;
 
-    const result = await authModels.handleLogin(data);
+        const result = await authModels.handleLogin(data);
 
-    if (result.DT) {
-        req.session.cookie.maxAge = 30 * 24 * 3600000;
-        res.cookie('jwt', result.DT.access_token, {
-            maxAge: 30 * 24 * 3600000, 
-            httpOnly: true, 
-        });
-        req.session.user = result.DT;
+        if (result.DT) {
+            req.session.cookie.maxAge = 30 * 24 * 3600000;
+            res.cookie('jwt', result.DT.access_token, {
+                maxAge: 30 * 24 * 3600000,
+                httpOnly: true,
+                secure: false,
+                path: '/',
+                domain: 'localhost',
+            });
+            req.session.user = result.DT;
+        }
+        
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error('CONTROLLER | LOGIN | ERROR |', error);
+        return {
+            EM: 'LOGIN | ERROR | ' + error,
+            EC: '500',
+            DT: '',
+        };
     }
-
-    return res.status(200).json(result);
 };
 
 export const handleLogout = async (req, res) => {

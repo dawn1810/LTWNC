@@ -12,9 +12,19 @@ import { redisStore } from './connectRedis';
 const app = express();
 const PORT = process.env.PORT;
 
+//session
+app.use(
+    session({
+        store: redisStore,
+        resave: false,
+        saveUninitialized: false,
+        secret: 'keyboard cat',
+    }),
+);
+
 const corsOptions = {
-    origin: 'http://localhost:3000', 
-    optionsSuccessStatus: 200, 
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200,
     credentials: true,
 };
 
@@ -24,21 +34,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
-
-
-//session
-app.use(
-    session({
-        store: redisStore,
-        resave: false,
-        saveUninitialized: false,
-        secret: 'keyboard cat',
-        cookie: {
-            httpOnly: true,
-            secure: false,
-        },
-    }),
-);
 
 // middleware
 app.use(checkAuthen);

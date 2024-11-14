@@ -35,12 +35,18 @@ const extractToken = (req) => {
 
 export const checkAuthen = async (req, res, next) => {
     if (SecurePaths.includes(req.path)) return next();
-    const session = req.session;
+    const session = await req.session;
+    console.log(session);
+    
     const tokenFromHeader = extractToken(req);
+    console.log(tokenFromHeader);
+
+
     const token =
         session && session.user && session.user.access_token
             ? session.user.access_token
             : tokenFromHeader;
+
     if (!token)
         return res.status(200).json({
             EM: 'JWT | ERROR | Xác thực thất bại',

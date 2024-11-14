@@ -36,7 +36,7 @@ const Product = sequelize.define(
     },
 );
 
-// Product.belongsTo(Group, {foreignKey: 'idnhom'});
+Product.belongsTo(Group, {foreignKey: 'idnhom'});
 
 const syncDatabase = async () => {
     await Product.sync({ alter: true });
