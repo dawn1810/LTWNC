@@ -60,6 +60,8 @@ const getGroups = async () => {
 
 const getUserInfo = async (userId) => {
     try {
+        console.log(userId);
+        
         // get email@
         await pool.query('START TRANSACTION');
         // find current user
@@ -70,6 +72,9 @@ const getUserInfo = async (userId) => {
             [userId],
         );
 
+        console.log(currUser);
+        
+        
         await pool.query('COMMIT');
 
         return {
@@ -228,7 +233,7 @@ const addUser = async (info) => {
 const deleteUserSequalize = async (userId) => {
     const deleteTransaction = await sequelize.transaction();
     try {
-        const deleteUser = User.destroy(
+        const deleteUser = await User.destroy(
             {
                 where: {
                     id: userId,

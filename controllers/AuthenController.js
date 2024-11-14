@@ -34,7 +34,7 @@ export const handleLogin = async (req, res) => {
             });
             req.session.user = result.DT;
         }
-        
+
         return res.status(200).json(result);
     } catch (error) {
         console.error('CONTROLLER | LOGIN | ERROR |', error);
@@ -70,5 +70,21 @@ export const handleLogout = async (req, res) => {
             EM: 'LOGOUT | ERROR | ' + error,
             EC: '500',
         });
+    }
+};
+
+export const checkUser = async (req, res) => {
+    try {
+        const userId = await req.session.user.userId;
+
+        const result = await authModels.checkUser(+userId);
+
+        return res.status(200).json(result);
+    } catch (error) {
+        console.error('CONTROLLER | CHECK_USER | ERROR |', error);
+        return {
+            EM: 'CHECK_USER | ERROR | ' + error,
+            EC: '500',
+        };
     }
 };

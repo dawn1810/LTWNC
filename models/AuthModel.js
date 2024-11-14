@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);
 import pool from '../connectDB.js';
 import { createToken } from '../middleware/roleMiddleware.js';
+import User from '../sequalizeModels/User.js';
+import sequelize from '../sequalize.js';
 
 const hashPassword = (password) => {
     const pass_hash = bcrypt.hashSync(password, salt);
@@ -193,7 +195,45 @@ const handleLogin = async (data) => {
     }
 };
 
+const checkUser = async (userId) => {
+    const transaction = await sequelize.transaction();
+    try {
+        const user = await User.findOne(
+            {
+                attributes: ['id', 'username', 'role'],
+                where: {
+                    id: userId,
+                },
+            },
+            { transaction: transaction },
+        );
+        await transaction.commit();
+        
+
+        if (user) {
+            return {
+                EM: 'CHECK_USER | INFO | Kiểm tra thành công',
+                EC: '200',
+                DT: user,
+            };
+        } else {
+            return {
+                EM: 'CHECK_USER | ERROR | Kiểm tra thất bại',
+                EC: '400',
+            };
+        }
+    } catch (error) {
+        await transaction.rollback();
+        console.error('MODEL | CHECK_USER | ERROR |', error);
+        return {
+            EM: 'CHECK_USER | ERROR | ' + error,
+            EC: '500',
+        };
+    }
+};
+
 export const authModels = {
     handleLogin,
     handleRegister,
+    checkUser,
 };

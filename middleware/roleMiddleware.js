@@ -36,11 +36,8 @@ const extractToken = (req) => {
 export const checkAuthen = async (req, res, next) => {
     if (SecurePaths.includes(req.path)) return next();
     const session = await req.session;
-    console.log(session);
-    
-    const tokenFromHeader = extractToken(req);
-    console.log(tokenFromHeader);
 
+    const tokenFromHeader = extractToken(req);
 
     const token =
         session && session.user && session.user.access_token

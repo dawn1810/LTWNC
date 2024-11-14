@@ -11,7 +11,7 @@ const homeController = async (req, res) => {
 export const getUserInfo = async (req, res) => {
     const userId = await req.body.userId;
     const result = await models.getUserInfo(userId);
-
+    
     return res.status(200).json(result);
 };
 
